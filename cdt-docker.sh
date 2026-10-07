@@ -11,6 +11,7 @@
 #   CDT_HOME   host dir for CDT's persistent config (~ in box)  default: ~/.cdt-docker
 #   CDT_IMAGE  image name                                       default: cdt:latest
 #   NOVNC_PORT port for vnc mode (bound to 127.0.0.1 only)      default: 6080
+#   VNC_GEOMETRY  desktop size for vnc mode                     default: 1600x900
 set -euo pipefail
 
 IMAGE="${CDT_IMAGE:-cdt:latest}"
@@ -45,7 +46,7 @@ case "$mode" in
            -v /tmp/.X11-unix:/tmp/.X11-unix:ro)
     ;;
   vnc)
-    args+=(-p "127.0.0.1:$NOVNC_PORT:6080")
+    args+=(-p "127.0.0.1:$NOVNC_PORT:6080" -e VNC_GEOMETRY="${VNC_GEOMETRY:-1600x900}")
     echo "On your local machine run:  ssh -L $NOVNC_PORT:localhost:$NOVNC_PORT $(whoami)@$(hostname)"
     echo "then open http://localhost:$NOVNC_PORT/vnc.html"
     ;;
